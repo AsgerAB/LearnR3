@@ -9,12 +9,12 @@ format: html
 ```{r setup}
 library(tidyverse)
 library(here)
-library(snakecase)
+source(here("R/functions.R"))
 ```
-
 
 ## Importing new data
 ```{r}
+#| eval: false
 here("data-raw/nurses-stress/stress/5C/5C_1586886626/HR.csv.gz") |>
   read_csv(
     show_col_types = FALSE,
@@ -25,6 +25,7 @@ here("data-raw/nurses-stress/stress/5C/5C_1586886626/HR.csv.gz") |>
 
 ## Exercise Reading other files
 ```{r}
+#| eval: false
 here("data-raw/nurses-stress/stress/5C/5C_1586886712/HR.csv.gz") |>
   read_csv(
     show_col_types = FALSE,
@@ -34,6 +35,7 @@ here("data-raw/nurses-stress/stress/5C/5C_1586886712/HR.csv.gz") |>
 ```
 
 ```{r}
+#| eval: false
 here("data-raw/nurses-stress/stress/6B/6B_1587569373/HR.csv.gz") |>
   read_csv(
     show_col_types = FALSE,
@@ -58,23 +60,6 @@ add_numbers <- function(num1, num2) {
 ```
 
 ## Creating a function to import data
-```{r}
-#' Read in one nurses' stress data file.
-#'
-#' @param file_path A path to a data file
-#' @param max_rows Number of rows in output
-#'
-#' @returns Outputs a data frame / tibble
-read <- function(file_path, max_rows = 100) {
-  data <- file_path |>
-    readr::read_csv(
-      show_col_types = FALSE,
-      name_repair = snakecase::to_snake_case,
-      n_max = max_rows
-    )
-  return(data)
-}
-```
 
 ```{r}
 here("data-raw/nurses-stress/stress/5C/5C_1586886626/HR.csv.gz") |>
@@ -95,3 +80,4 @@ here("data-raw/nurses-stress/stress/5C/5C_1586886712/HR.csv.gz") |>
 here("data-raw/nurses-stress/stress/5C/5C_1586886712/HR.csv.gz") |>
   read(max_rows = Inf)
 ```
+
