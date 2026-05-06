@@ -9,6 +9,7 @@ format: html
 ```{r setup}
 library(tidyverse)
 library(here)
+library(fs)
 source(here("R/functions.R"))
 ```
 
@@ -81,3 +82,17 @@ here("data-raw/nurses-stress/stress/5C/5C_1586886712/HR.csv.gz") |>
   read(max_rows = Inf)
 ```
 
+## Using map
+
+```{r}
+hr_files <- here("data-raw/nurses-stress/") |>
+  dir_ls(regexp = "HR.csv.gz", recurse = TRUE)
+
+hr_files
+
+hr_data <- hr_files |>
+  map(read) |> # NO BRACKETS!
+  list_rbind(names_to = "file_path_id")
+
+hr_data
+```
