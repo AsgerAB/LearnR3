@@ -10,6 +10,7 @@ format: html
 library(tidyverse)
 library(here)
 library(fs)
+library(purrr)
 source(here("R/functions.R"))
 ```
 
@@ -96,3 +97,29 @@ hr_data <- hr_files |>
 
 hr_data
 ```
+
+## Exercise: Convert map to function and use sleep
+
+```{r}
+#| eval: false
+#' Reading all files
+#'
+#' @param filename The name of the files in the sub-folders that we want to read
+#'
+#' @returns a single data frame/tibble
+#' 
+read_all <- function(filename) {
+  files <- here::here("data-raw/nurses-stress/") |>
+  fs::dir_ls(regexp = filename, recurse = TRUE)
+
+data <- files |>
+  purrr::map(read) |>
+  purrr::list_rbind(names_to = "file_path_id")
+
+  return(data)
+}
+
+read_all("HR.csv.gz")
+read_all("IBI.csv.gz")
+```
+

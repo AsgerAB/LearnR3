@@ -13,3 +13,20 @@ read <- function(file_path, max_rows = 100) {
     )
   return(data)
 }
+
+#' Reading all files
+#'
+#' @param filename The name of the files in the sub-folders that we want to read
+#'
+#' @returns a single data frame/tibble
+#'
+read_all <- function(filename) {
+  files <- here::here("data-raw/nurses-stress/") |>
+    fs::dir_ls(regexp = filename, recurse = TRUE)
+
+  data <- files |>
+    purrr::map(read) |>
+    purrr::list_rbind(names_to = "file_path_id")
+
+  return(data)
+}
