@@ -4,7 +4,7 @@
 #' @param max_rows Number of rows in output
 #'
 #' @returns Outputs a data frame / tibble
-read <- function(file_path, max_rows = 10) {
+read <- function(file_path, max_rows = Inf) {
   data <- file_path |>
     readr::read_csv(
       show_col_types = FALSE,
